@@ -22,12 +22,26 @@ if (numel(F) == 0)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% YOUR CODE HERE:
 % M should be a factor
 % Remember to renormalize the entries of M!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-M = struct('var', [], 'card', [], 'val', []); % Returns empty factor. Change this.
+M = struct('var', [], 'card', [], 'val', []); % Returns empty factor. 
+
+
+% Computing the joint probability
+Joint = ComputeJointDistribution(F);
+
+% Observing the given evidence so we can zero out the rows that
+% are not consistent with the evidence
+M = ObserveEvidence(Joint, E);
+
+% renormalizing the probability of M.val by dividing it by sum(M.val) so that
+% it sums to 1
+M.val = M.val ./ sum(M.val);
+
+% Computing the marginal probability
+M = FactorMarginalization(M, setdiff(1:length(M.var), V));
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end
