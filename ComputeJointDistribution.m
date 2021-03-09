@@ -19,13 +19,20 @@ function Joint = ComputeJointDistribution(F)
   end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% YOUR CODE HERE:
 % Compute the joint distribution defined by F
 % You may assume that you are given legal CPDs so no input checking is required.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- 
-Joint = struct('var', [], 'card', [], 'val', []); % Returns empty factor. Change this.
+if (length(F) == 0)
+	Joint = struct('var', [], 'card', [], 'val', []); % Returns empty factor
+
+else
+	Joint = F(1)
+    for k = 2:length(F)
+    	Joint = FactorProduct(Joint, F(k));
+    endfor
+
+endif
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end
