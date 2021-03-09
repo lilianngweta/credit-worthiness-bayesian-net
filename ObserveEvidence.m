@@ -34,12 +34,23 @@ for i = 1:size(E, 1),
             end;
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            % YOUR CODE HERE
             % Adjust the factor F(j) to account for observed evidence
             % Hint: You might find it helpful to use IndexToAssignment
             %       and SetValueOfAssignment
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
+            % Using IndexToAssignment to the assignment for get F(j)
+            assignments = IndexToAssignment(1:prod(F(j).card),F(j).card);
+
+            % getting all indices of all entries in F(j) that are not consistent with the evidence, E
+            inconsistent_indices = find(assignments(:,indx) ~= x);
+
+            % getting all assignments of entries that are inconsistent with the evidence
+            inconsistent_assignments = IndexToAssignment(inconsistent_indices,F(j).card);
+
+            % setting the values of entries that are inconsistent with the evidence to zero using SetValueOfAssignment
+            F(j) = SetValueOfAssignment(F(j), inconsistent_assignments, 0);
+
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 				% Check validity of evidence / resulting factor
